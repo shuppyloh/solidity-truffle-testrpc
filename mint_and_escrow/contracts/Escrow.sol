@@ -38,9 +38,6 @@ contract Escrow {
         seller_state = State.None;
     }
 
-    //deposit throws if the deposit failed.
-    //returns false if (deposit is successful && deal is NOT successful)
-    //returns true if (deposit is successful && deal IS successful)
     function buyer_deposit(address _buyer_mint, uint256 _buyer_value) 
             atState(buyer_state, State.None) 
             returns (bool success) {
