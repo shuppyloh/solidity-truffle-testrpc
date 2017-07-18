@@ -15,6 +15,7 @@ contract customToken{
     /* This generates a public event on the blockchain that will notify clients */
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Mint(address indexed to, uint256 value);
+    event Approve(address indexed spender, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
     function customToken( uint256 initialSupply, string tokenName, uint8 decimalUnits, string tokenSymbol) { 
@@ -34,6 +35,13 @@ contract customToken{
     }
 
     /* Send coins*/
+    function getAllowance(address origin, address approved) returns (uint256){
+        return allowance[origin][approved];
+    }
+    function balanceOf(address user) returns (uint256){
+        return balanceOf[user];
+    }
+
     function transfer(address _to, uint256 _value) returns (bool success) {
         if (_to == 0x0) throw;                               // Prevent transfer to 0x0 address. Use burn() instead
         if (balanceOf[msg.sender] < _value) throw;           // Check if the sender has enough
@@ -58,17 +66,10 @@ contract customToken{
 
     function approve(address _spender, uint256 _value) returns (bool success){
         allowance[msg.sender][_spender] = _value;
+        Approve(_spender, _value);
         return true;
     }
 
-}
-contract ICLD is customToken{
-    function ICLD(uint256 initialSupply, string tokenName, uint8 decimalUnits, string tokenSymbol) 
-    customToken(initialSupply,tokenName,decimalUnits,tokenSymbol){}
-}
-contract BOOK is customToken{
-    function BOOK(uint256 initialSupply, string tokenName, uint8 decimalUnits, string tokenSymbol) 
-    customToken(initialSupply,tokenName,decimalUnits,tokenSymbol){} 
     event Burn(address indexed from, uint256 value);
     function burn(uint256 _value) returns (bool success) {
         if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
@@ -77,4 +78,5 @@ contract BOOK is customToken{
         Burn(msg.sender, _value);
         return true;
     }
+
 }
