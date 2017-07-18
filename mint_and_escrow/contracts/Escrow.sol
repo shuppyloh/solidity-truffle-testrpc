@@ -45,8 +45,9 @@ contract Escrow {
         buyer_mint = AbstractMint(_buyer_mint);
         buyer_value = _buyer_value;
         if (buyer_mint.transferFrom(buyer, address(this), buyer_value)==true){
+            buyer_state = State.Confirm;
             BuyerDeposit(buyer,buyer_value);
-            if (seller_state == State.Confirm && buyer_state == State.Confirm){
+            if (seller_state == State.Confirm){
                 deal();
             }
             return true;
@@ -59,8 +60,9 @@ contract Escrow {
         seller_mint = AbstractMint(_seller_mint);
         seller_value = _seller_value;
         if(seller_mint.transferFrom(seller, this, seller_value)==true){
+            seller_state = State.Confirm
             SellerDeposit(seller, seller_value);
-            if (seller_state == State.Confirm && buyer_state == State.Confirm){
+            if (buyer_state == State.Confirm){
                 deal();
             }
             return true;
