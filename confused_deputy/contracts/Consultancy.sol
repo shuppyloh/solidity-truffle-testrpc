@@ -18,8 +18,8 @@ contract Bill is Inbox{
     bytes32 bill;
     modifier ownerOnly(){ require(msg.sender == owner);_;}
     function Bill(){ owner = msg.sender; }
-    //the save function call can only be triggered by the owner(Consultant)
-    function save(bytes32 _customer, bytes32 _bill){ customer = _customer; bill = _bill;} 
+    //the save function call can only be triggered by the owner - see the modifier ownerOnly
+    function save(bytes32 _customer, bytes32 _bill) ownerOnly { customer = _customer; bill = _bill;} 
 }
 
 contract Consultant{
