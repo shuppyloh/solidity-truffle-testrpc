@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
-//Abstract Inbox that Consultant references for the save function 
-contract Inbox{
+//interface Inbox that Consultant requires for the save function 
+interface Inbox{
     function save(bytes32 data1, bytes32 data2);
 }
 
